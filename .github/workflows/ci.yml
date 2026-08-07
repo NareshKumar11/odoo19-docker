@@ -59,3 +59,6 @@ jobs:
       - name: Stop Containers
         if: always()
         run: docker compose down
+
+      - name: Validate Odoo Manifest Files
+        run: python3 scripts/check_manifest.py
