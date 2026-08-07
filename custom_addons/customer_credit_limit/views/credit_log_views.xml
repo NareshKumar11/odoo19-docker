@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="customer_credit_log_view_list" model="ir.ui.view">
+        <field name="name">customer.credit.log.list</field>
+        <field name="model">customer.credit.log</field>
+        <field name="arch" type="xml">
+            <list string="Credit Limit History" create="false" edit="false" delete="false">
+                <field name="create_date" string="Date"/>
+                <field name="partner_id"/>
+                <field name="old_limit"/>
+                <field name="new_limit"/>
+                <field name="difference"/>
+                <field name="user_id"/>
+                <field name="reason" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="currency_id" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="customer_credit_log_view_search" model="ir.ui.view">
+        <field name="name">customer.credit.log.search</field>
+        <field name="model">customer.credit.log</field>
+        <field name="arch" type="xml">
+            <search string="Credit Limit History">
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <filter name="increase" string="Increases" domain="[('difference', '>', 0)]"/>
+                <filter name="decrease" string="Decreases" domain="[('difference', '&lt;', 0)]"/>
+                <filter name="group_partner" string="Customer" context="{'group_by': 'partner_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_customer_credit_log" model="ir.actions.act_window">
+        <field name="name">Credit Limit History</field>
+        <field name="res_model">customer.credit.log</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="customer_credit_log_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No credit limit changes yet</p>
+            <p>Every change to a customer credit limit is recorded here and cannot be edited.</p>
+        </field>
+    </record>
+
+</odoo>

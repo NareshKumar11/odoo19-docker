@@ -39,7 +39,7 @@ services:
       PASSWORD: odoo19
 
     volumes:
-      - ./addons:/mnt/extra-addons
+      - ./custom_addons:/mnt/extra-addons
       - ./config:/etc/odoo
       - ./logs:/var/log/odoo
       - odoo_data:/var/lib/odoo

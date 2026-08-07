@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_customer_credit_approval"
+              name="Credit Approvals"
+              parent="account.menu_finance_receivables"
+              action="action_customer_credit_approval"
+              sequence="90"/>
+
+    <menuitem id="menu_customer_credit_log"
+              name="Credit Limit History"
+              parent="account.menu_finance_receivables"
+              action="action_customer_credit_log"
+              groups="customer_credit_limit.group_credit_approver"
+              sequence="91"/>
+
+</odoo>

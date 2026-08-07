@@ -62,3 +62,13 @@ jobs:
 
       - name: Validate Odoo Manifest Files
         run: python3 scripts/check_manifest.py
+
+      - name: Validate Python Files
+        run: |
+          find custom_addons -name "*.py" -exec python3 -m py_compile {} \;
+
+      - name: Validate XML Files
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxml2-utils
+          find custom_addons -name "*.xml" -exec xmllint --noout {} \;

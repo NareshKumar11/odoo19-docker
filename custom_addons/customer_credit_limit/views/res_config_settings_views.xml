@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_credit" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.credit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='sale_management']" position="inside">
+                <block title="Customer Credit" name="customer_credit_block">
+
+                    <setting string="Credit Control"
+                             help="What happens when a customer goes over their credit limit.">
+                        <field name="credit_control_mode"/>
+                    </setting>
+
+                    <setting string="Warning At"
+                             help="Show a warning on the order once this share of the credit limit is used."
+                             invisible="credit_control_mode == 'off'">
+                        <div class="mt8">
+                            <field name="credit_warn_percent" class="o_light_label w-25"/> %
+                        </div>
+                    </setting>
+
+                    <setting string="Block At"
+                             help="Stop confirmation once this share is used. Set above 100 to allow a tolerance."
+                             invisible="credit_control_mode in ('off', 'warn')">
+                        <div class="mt8">
+                            <field name="credit_block_percent" class="o_light_label w-25"/> %
+                        </div>
+                    </setting>
+
+                    <setting string="Block When Overdue By"
+                             help="Block the customer when an invoice is overdue by more than this many days, even if credit is available. Zero disables the check."
+                             invisible="credit_control_mode in ('off', 'warn')">
+                        <div class="mt8">
+                            <field name="credit_overdue_days" class="o_light_label w-25"/> days
+                        </div>
+                    </setting>
+
+                    <setting string="Also Block Delivery"
+                             help="Check the credit position again when a delivery is validated."
+                             invisible="credit_control_mode in ('off', 'warn')">
+                        <field name="credit_block_delivery"/>
+                    </setting>
+
+                    <setting string="Also Block Invoice"
+                             help="Check the credit position again when a customer invoice is posted."
+                             invisible="credit_control_mode in ('off', 'warn')">
+                        <field name="credit_block_invoice"/>
+                    </setting>
+
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

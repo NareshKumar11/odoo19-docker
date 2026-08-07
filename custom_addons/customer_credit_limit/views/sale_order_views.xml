@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_order_form_credit" model="ir.ui.view">
+        <field name="name">sale.order.form.credit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//button[@name='action_confirm'][1]" position="before">
+                <button name="action_request_credit_approval" type="object"
+                        string="Request Credit Approval" class="btn-primary"
+                        invisible="not credit_can_request"/>
+                <button name="action_open_credit_approval" type="object"
+                        string="View Credit Approval" class="btn-secondary"
+                        invisible="not credit_approval_id"/>
+            </xpath>
+
+            <!-- Full width, between the status bar and the sheet card. -->
+            <xpath expr="//sheet" position="before">
+                <field name="credit_can_request" invisible="1"/>
+                <field name="company_currency_id" invisible="1"/>
+                <field name="credit_message" nolabel="1" readonly="1"
+                       widget="html" invisible="not credit_message"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page name="credit" string="Credit" invisible="not partner_id">
+                    <group>
+                        <group string="Credit Position">
+                            <field name="credit_effective_limit"/>
+                            <field name="credit_outstanding"/>
+                            <field name="credit_order_amount"/>
+                            <field name="credit_available"/>
+                            <field name="credit_used_percent"/>
+                        </group>
+                        <group string="Status">
+                            <field name="credit_band" widget="badge"
+                                   decoration-success="credit_band == 'green'"
+                                   decoration-warning="credit_band == 'yellow'"
+                                   decoration-danger="credit_band == 'red'"/>
+                            <field name="credit_approval_id"
+                                   invisible="not credit_approval_id"/>
+                            <field name="credit_approval_state"
+                                   invisible="not credit_approval_id"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quotation_tree_credit" model="ir.ui.view">
+        <field name="name">sale.order.list.credit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="credit_band" widget="badge" optional="hide"
+                       decoration-success="credit_band == 'green'"
+                       decoration-warning="credit_band == 'yellow'"
+                       decoration-danger="credit_band == 'red'"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

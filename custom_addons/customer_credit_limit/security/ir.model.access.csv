@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_credit_approval_user,customer.credit.approval user,model_customer_credit_approval,base.group_user,1,1,1,0
+access_credit_approval_approver,customer.credit.approval approver,model_customer_credit_approval,customer_credit_limit.group_credit_approver,1,1,1,1
+access_credit_log_user,customer.credit.log user,model_customer_credit_log,base.group_user,1,0,0,0
+access_credit_log_approver,customer.credit.log approver,model_customer_credit_log,customer_credit_limit.group_credit_approver,1,0,0,0

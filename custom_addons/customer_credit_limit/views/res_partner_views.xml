@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_partner_form_credit" model="ir.ui.view">
+        <field name="name">res.partner.form.credit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_credit_approvals" type="object"
+                        class="oe_stat_button" icon="fa-gavel"
+                        invisible="credit_approval_count == 0">
+                    <field name="credit_approval_count" widget="statinfo"
+                           string="Credit Approvals"/>
+                </button>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page name="credit" string="Credit"
+                      invisible="not is_company and parent_id">
+
+                    <div class="alert alert-info" role="alert"
+                         invisible="not credit_check_exempt">
+                        Credit control is switched off for this customer.
+                        Untick <b>Exclude From Credit Control</b> below to turn it on.
+                    </div>
+                    <div class="alert alert-info" role="alert"
+                         invisible="credit_check_exempt or credit_limit > 0">
+                        No credit limit is set, so nothing is checked except a manual
+                        credit hold. Enter a Credit Limit to start credit control.
+                    </div>
+                    <div class="alert alert-danger" role="alert"
+                         invisible="credit_band != 'red'">
+                        This customer is blocked for new orders.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="credit_band != 'yellow'">
+                        This customer is close to their credit limit.
+                    </div>
+
+                    <group>
+                        <group string="Credit Position">
+                            <field name="credit_band" widget="badge"
+                                   decoration-success="credit_band == 'green'"
+                                   decoration-warning="credit_band == 'yellow'"
+                                   decoration-danger="credit_band == 'red'"/>
+                            <field name="credit_limit"/>
+                            <field name="credit_temporary_amount"
+                                   invisible="credit_temporary_amount == 0"/>
+                            <field name="credit_temporary_expiry"
+                                   invisible="not credit_temporary_expiry"/>
+                            <field name="credit_effective_limit"/>
+                            <field name="credit_outstanding"/>
+                            <field name="credit_available"/>
+                            <field name="credit_used_percent"/>
+                        </group>
+                        <group string="Overdue">
+                            <field name="credit_overdue_amount"/>
+                            <field name="credit_days_overdue"/>
+                        </group>
+                    </group>
+
+                    <group groups="customer_credit_limit.group_credit_approver">
+                        <group string="Credit Control">
+                            <field name="credit_hold"/>
+                            <field name="credit_hold_reason" invisible="not credit_hold"/>
+                            <field name="credit_check_exempt"/>
+                        </group>
+                        <group string="Override The Company Thresholds">
+                            <field name="credit_warn_percent_override"/>
+                            <field name="credit_block_percent_override"/>
+                        </group>
+                    </group>
+
+                    <field name="credit_log_ids" readonly="1"
+                           groups="customer_credit_limit.group_credit_approver">
+                        <list string="Credit Limit History" create="false" delete="false">
+                            <field name="create_date" string="Date"/>
+                            <field name="old_limit"/>
+                            <field name="new_limit"/>
+                            <field name="difference"/>
+                            <field name="user_id"/>
+                            <field name="reason"/>
+                            <field name="currency_id" column_invisible="True"/>
+                        </list>
+                    </field>
+
+                    <field name="currency_id" invisible="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_credit" model="ir.ui.view">
+        <field name="name">res.partner.list.credit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="credit_available" optional="hide"/>
+                <field name="credit_band" widget="badge" optional="show"
+                       decoration-success="credit_band == 'green'"
+                       decoration-warning="credit_band == 'yellow'"
+                       decoration-danger="credit_band == 'red'"/>
+                <field name="currency_id" column_invisible="True"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="res_partner_kanban_view_credit" model="ir.ui.view">
+        <field name="name">res.partner.kanban.credit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//kanban" position="inside">
+                <field name="credit_band"/>
+            </xpath>
+
+            <!-- Odoo 18+ kanban template. If this fails to locate, the card
+                 template is still named 'kanban-box' on your build. -->
+            <xpath expr="//t[@t-name='card']" position="inside">
+                <div class="mt-1"
+                     t-if="record.credit_band.raw_value and record.credit_band.raw_value != 'none'">
+                    <span class="badge text-bg-success"
+                          t-if="record.credit_band.raw_value == 'green'">Credit normal</span>
+                    <span class="badge text-bg-warning"
+                          t-if="record.credit_band.raw_value == 'yellow'">Credit warning</span>
+                    <span class="badge text-bg-danger"
+                          t-if="record.credit_band.raw_value == 'red'">Credit blocked</span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
