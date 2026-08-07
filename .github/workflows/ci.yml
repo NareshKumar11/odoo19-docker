@@ -1,0 +1,45 @@
+name: Odoo 19 CI
+
+on:
+  push:
+    branches:
+      - "19.0"
+      - "staging"
+      - "production"
+
+  pull_request:
+    branches:
+      - "19.0"
+      - "staging"
+      - "production"
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        run: |
+          docker build -t odoo19 .
+
+      - name: Validate Docker Compose
+        run: |
+          docker compose config
+
+      - name: Verify requirements.txt
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install -r requirements.txt
+
+      - name: Verify Docker Image
+        run: |
+          docker images
