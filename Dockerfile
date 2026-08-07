@@ -9,6 +9,12 @@ RUN apt-get update && apt-get install -y \
     nano \
     vim \
     python3-pip \
+    gcc \
+    g++ \
+    libpq-dev \
+    libsasl2-dev \
+    libldap2-dev \
+    libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /tmp/requirements.txt

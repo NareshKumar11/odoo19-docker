@@ -10,8 +10,14 @@ logs/
 # PostgreSQL data
 postgres/
 
-# Odoo filestore (if bind-mounted in future)
+# Odoo filestore
 data/
+
+# Odoo session files (if mounted)
+sessions/
+
+# Docker
+*.pid
 
 # IDE
 .idea/
@@ -39,3 +45,14 @@ venv/
 # Coverage
 .coverage
 htmlcov/
+
+# Ruff cache
+.ruff_cache/
+
+# MyPy cache
+.mypy_cache/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
