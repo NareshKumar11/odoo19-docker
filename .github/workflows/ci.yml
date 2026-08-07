@@ -15,7 +15,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -32,32 +31,31 @@ jobs:
         run: docker build -t odoo19 .
 
       - name: Start Containers
-	  run: docker compose up -d
+        run: docker compose up -d
 
       - name: Show Running Containers
-	  run: docker ps
+        run: docker ps
 
       - name: Wait for Odoo
-	  run: |
-	    echo "Waiting for Odoo to start..."
-	    for i in {1..30}; do
-	      if curl -f http://localhost:1069 >/dev/null 2>&1; then
-		echo "Odoo is running!"
-		exit 0
-	      fi
-	      echo "Attempt $i/30..."
-	      sleep 5
-	    done
-	    echo "Odoo failed to start."
-	    docker logs odoo19
-	    exit 1
+        run: |
+          echo "Waiting for Odoo to start..."
+          for i in {1..30}; do
+            if curl -f http://localhost:1069 >/dev/null 2>&1; then
+              echo "Odoo is running!"
+              exit 0
+            fi
+            echo "Attempt $i/30..."
+            sleep 5
+          done
 
-	- name: Show Odoo Logs
-	  if: always()
-	  run: docker logs odoo19 || true
+          echo "Odoo failed to start."
+          docker logs odoo19
+          exit 1
 
-	- name: Stop Containers
-	  if: always()
-	  run: docker compose down
+      - name: Show Odoo Logs
+        if: always()
+        run: docker logs odoo19 || true
 
-
+      - name: Stop Containers
+        if: always()
+        run: docker compose down
