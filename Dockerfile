@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     gcc \
     g++ \
-    libpq-dev \
     libsasl2-dev \
     libldap2-dev \
     libssl-dev \
