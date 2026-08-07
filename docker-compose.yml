@@ -1,0 +1,42 @@
+services:
+
+  db:
+    image: postgres:17
+    container_name: postgres19
+    restart: always
+
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo19
+      POSTGRES_PASSWORD: odoo19
+
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+    ports:
+      - "5433:5432"
+
+  odoo:
+    build: .
+    container_name: odoo19
+
+    depends_on:
+      - db
+
+    ports:
+      - "1069:8069"
+      - "1072:8072"
+
+    environment:
+      HOST: db
+      USER: odoo19
+      PASSWORD: odoo19
+
+    volumes:
+      - ./addons:/mnt/extra-addons
+      - ./config:/etc/odoo
+      - ./logs:/var/log/odoo
+      - odoo_data:/var/lib/odoo
+
+volumes:
+  odoo_data:

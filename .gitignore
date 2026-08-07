@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Odoo logs
+logs/
+*.log
+
+# PostgreSQL data
+postgres/
+
+# Odoo filestore (if bind-mounted in future)
+data/
+
+# IDE
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env
+
+# Temporary files
+*.swp
+*.bak
+
+# Python virtual environments
+venv/
+.venv/
+
+# Pytest
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
