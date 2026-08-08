@@ -21,7 +21,7 @@ Works with no configuration. Six settings in Accounting > Settings.
     'author': '',
     'website': '',
     'license': 'LGPL-3',
-    'depends': ['sale_management', 'account', 'stock'],
+    'depends': ['sale_management', 'account', 'stock'],kdfkl;dkfldzlfmldaflmfdl
     'data': [
         'security/credit_security.xml',
         'security/ir.model.access.csv',
@@ -33,7 +33,7 @@ Works with no configuration. Six settings in Accounting > Settings.
         'views/sale_order_views.xml',
         'views/credit_approval_views.xml',
         'views/credit_log_views.xml',
-        'views/menus.xml',
+        'views/menus.xml',kjdsfkdkfnkdnfkdnafkldafn
     ],
     'installable': True,
     'application': False,
