@@ -35,7 +35,7 @@ Works with no configuration. Six settings in Accounting > Settings.
         'views/credit_log_views.xml',
         'views/menus.xml',
     ],
-    'installable': True,
+    'installable': True,aaasasaadad
     'application': False,
     'auto_install': False,
 }
